@@ -3,7 +3,17 @@ from telegram.ext.dispatcher import run_async
 import requests
 import re
 
+def get_chat_id(update, context):
+    chat_id = -1
 
+    if update.message is not None:
+        chat_id = update.message.chat.id
+    elif update.callback_query is not None:
+        chat_id = update.callback_query.message.chat.id
+    elif update.poll is not None:
+        chat_id = context.bot_data[update.poll.id]
+
+    return chat_id
 
 def main():
     updater = Updater('2116134001:AAHl_y9JAdFs0-SKuzVZICONmJ-BHpZjZvI', use_context=True)
